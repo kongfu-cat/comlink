@@ -283,11 +283,10 @@ export const transferHandlers = new Map<
 
 export function expose(obj: any, ep: Endpoint = self as any) {
   ep.addEventListener("message", function callback(ev: MessageEvent) {
-    if (!ev || !ev.data) {
+    if (!ev || !ev.data || !ev.data.type) {
       return;
     }
-    const { id, type, path } = {
-      path: [] as string[],
+    const { id, type, path = [] } = {
       ...(ev.data as Message),
     };
     const argumentList = (ev.data.argumentList || []).map(fromWireValue);
